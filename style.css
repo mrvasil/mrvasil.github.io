@@ -321,3 +321,16 @@ section {
   color: transparent;
   animation: rotatingGradient 3s ease infinite;
 }
+
+
+h1 .mrvasil {
+  font-family: 'SF UI Display', sans-serif; 
+  cursor: pointer;
+  display: inline-block; /* Делает элемент поддерживающим трансформацию */
+  transition: transform 0.3s ease; /* Плавное изменение */
+}
+
+h1 .mrvasil:hover {
+  transform: scale(1.1);
+  text-shadow: rgba(106, 0, 255, 0.796) 0 0 30px; /* Увеличение размера при наведении */
+}
