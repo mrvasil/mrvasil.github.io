@@ -33,7 +33,7 @@ section {
   );
   backdrop-filter: blur(30px);
   border-radius: 20px;
-  width: min(1000px, 100%);
+  width: min(1100px, 100%);
   box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
     0 1px 0 0 rgba(255, 255, 255, 0.66) inset, 0 4px 16px rgba(0, 0, 0, 0.12);
   z-index: 10;
@@ -63,7 +63,7 @@ section {
 }
 
 .btn {
-  display: block;
+  display: inline-block; /* Изменено с block на inline-block */
   padding: 10px 40px;
   margin: 10px auto;
   font-size: 1.1rem;
@@ -326,11 +326,19 @@ section {
 h1 .mrvasil {
   font-family: 'SF UI Display', sans-serif; 
   cursor: pointer;
-  display: inline-block; /* Делает элемент поддерживающим трансформацию */
-  transition: transform 0.3s ease; /* Плавное изменение */
+  display: inline-block; 
+  transition: transform 0.3s ease; 
 }
 
 h1 .mrvasil:hover {
   transform: scale(1.1);
-  text-shadow: rgba(106, 0, 255, 0.796) 0 0 30px; /* Увеличение размера при наведении */
+  text-shadow: rgba(106, 0, 255, 0.796) 0 0 30px;
+}
+
+
+.buttons-container {
+  display: flex;
+  justify-content: center; /* Центрирует кнопки по горизонтали */
+  gap: 20px; /* Добавляет пространство между кнопками */
+  margin-left: 59px;
 }
