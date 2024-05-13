@@ -342,3 +342,25 @@ h1 .mrvasil:hover {
   gap: 20px; /* Добавляет пространство между кнопками */
   margin-left: 59px;
 }
+
+
+/* Стили для уведомления, видимого только на мобильных устройствах */
+.mobile-alert {
+  display: none; /* По умолчанию скрыто */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  z-index: 1000;
+}
+
+@media (max-width: 500px) {
+  .mobile-alert {
+    display: block; 
+  }
+}
