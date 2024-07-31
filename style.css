@@ -15,7 +15,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #120229;
+  background: #0a0229;
   min-height: 100vh;
   overflow: hidden;
 }
@@ -58,7 +58,7 @@ section {
 }
 
 .movie-night {
-  background: linear-gradient(225deg, #860cba 0%, #784ba0 50%, #2b86c5 100%);
+  background: linear-gradient(225deg, #860cba 0%, #5c4ba0 50%, #2b86c5 100%);
   
 }
 
