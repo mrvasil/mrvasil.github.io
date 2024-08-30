@@ -338,15 +338,14 @@ h1 .mrvasil:hover {
 
 .buttons-container {
   display: flex;
-  justify-content: center; /* Центрирует кнопки по горизонтали */
-  gap: 20px; /* Добавляет пространство между кнопками */
+  justify-content: center;
+  gap: 20px;
   margin-left: 59px;
 }
 
 
-/* Стили для уведомления, видимого только на мобильных устройствах */
 .mobile-alert {
-  display: none; /* По умолчанию скрыто */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -355,12 +354,12 @@ h1 .mrvasil:hover {
   color: white;
   text-align: center;
   padding: 10px;
-  font-size: 16px;
+  font-size: 180%;
   z-index: 1000;
 }
 
-@media (max-width: 500px) {
+@media (orientation: portrait) {
   .mobile-alert {
-    display: block; 
+    display: block;
   }
 }
