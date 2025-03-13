@@ -31,13 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Theme toggle
     const themeToggle = document.querySelector('.theme-toggle');
+    const moonIcon = themeToggle.querySelector('.fa-moon');
+    const sunIcon = themeToggle.querySelector('.fa-sun');
+    
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
-        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        const isLight = document.body.classList.contains('light-theme');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
     
     // Check for saved theme preference
-    if (localStorage.getItem('theme') === 'light') {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
         document.body.classList.add('light-theme');
     }
     
