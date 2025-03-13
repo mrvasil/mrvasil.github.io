@@ -43,17 +43,9 @@ body {
     overflow-x: hidden;
 }
 
+/* Удаляем стили курсора */
 .cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(108, 92, 231, 0.5);
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.1s ease;
+    display: none;
 }
 
 .container {
@@ -72,16 +64,43 @@ header {
     width: 100%;
     top: 0;
     z-index: 100;
-    background-color: rgba(var(--bg-color-rgb), 0.8);
-    backdrop-filter: blur(10px);
-    transition: var(--transition);
+    background-color: rgba(18, 18, 18, 0.6);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Добавляем эффект при прокрутке */
+header.scrolled {
+    padding: 1rem 2rem;
+    background-color: rgba(18, 18, 18, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .logo {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--primary-color);
+    background: linear-gradient(120deg, #6c5ce7, #a29bfe, #fd79a8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 3s ease infinite;
     letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.2);
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .header-nav {
@@ -112,32 +131,20 @@ header {
 .nav-icon {
     color: var(--text-color);
     font-size: 1.5rem;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0.9;
     position: relative;
-}
-
-/* Add hover effects for social icons */
-.nav-icon::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary-color);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
+    backdrop-filter: blur(5px);
+    padding: 8px;
+    border-radius: 50%;
 }
 
 .nav-icon:hover {
     color: var(--primary-color);
     opacity: 1;
     transform: translateY(-2px);
-}
-
-.nav-icon:hover::after {
-    transform: scaleX(1);
+    background: rgba(162, 155, 254, 0.1);
+    box-shadow: 0 0 20px rgba(162, 155, 254, 0.2);
 }
 
 /* Add tooltip on hover */
@@ -236,6 +243,36 @@ body.light-theme .theme-toggle .fa-sun {
     line-height: 1.2;
     letter-spacing: -1px;
     position: relative;
+}
+
+/* Add new styles for username highlight */
+.hero h1 span.username {
+    background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 3s ease infinite;
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero h1 span.username::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    opacity: 0.3;
+    border-radius: 2px;
 }
 
 .glitch {
@@ -812,4 +849,14 @@ footer {
     .project-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Обновляем для светлой темы */
+body.light-theme header {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme header.scrolled {
+    background-color: rgba(255, 255, 255, 0.75);
 }

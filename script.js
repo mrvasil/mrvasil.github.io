@@ -1,33 +1,7 @@
 // Custom cursor
 document.addEventListener('DOMContentLoaded', () => {
-    const cursor = document.querySelector('.cursor');
-    
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-    
-    document.addEventListener('mousedown', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(0.7)';
-    });
-    
-    document.addEventListener('mouseup', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-    });
-    
-    // Links and buttons hover effect
-    const links = document.querySelectorAll('a, button, .theme-toggle');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            cursor.style.backgroundColor = 'rgba(108, 92, 231, 0.2)';
-        });
-        
-        link.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.backgroundColor = 'rgba(108, 92, 231, 0.5)';
-        });
-    });
+    // Удаляем код курсора
+    // ... existing code ...
     
     // Theme toggle
     const themeToggle = document.querySelector('.theme-toggle');
@@ -38,12 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('light-theme');
         const isLight = document.body.classList.contains('light-theme');
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Обновляем цвет header при переключении темы с учетом прокрутки
+        const header = document.querySelector('header');
+        const isScrolled = header.classList.contains('scrolled');
+        header.style.backgroundColor = isLight 
+            ? `rgba(255, 255, 255, ${isScrolled ? '0.75' : '0.6'})` 
+            : `rgba(18, 18, 18, ${isScrolled ? '0.75' : '0.6'})`;
     });
     
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-theme');
+    } else if (!savedTheme) {
+        // If no theme is saved, explicitly set dark theme
+        localStorage.setItem('theme', 'dark');
     }
     
     // Typing animation
@@ -157,13 +141,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
     
-    // Add scroll class to header for background change
+    // Улучшенная обработка прокрутки для header
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
+        const isLight = document.body.classList.contains('light-theme');
+        
+        if (window.scrollY > 50) { // Уменьшили порог срабатывания
             header.classList.add('scrolled');
+            header.style.backgroundColor = isLight 
+                ? 'rgba(255, 255, 255, 0.75)' 
+                : 'rgba(18, 18, 18, 0.75)';
         } else {
             header.classList.remove('scrolled');
+            header.style.backgroundColor = isLight
+                ? 'rgba(255, 255, 255, 0.6)'
+                : 'rgba(18, 18, 18, 0.6)';
         }
     });
     
