@@ -1,70 +1,202 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hello! I'm mrvasil</title>
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'><link rel="stylesheet" href="./style.css">
-  <link href="https://fonts.cdnfonts.com/css/sf-ui-display" rel="stylesheet">
-  <meta name="description" content="Page about me">
-  <link rel="icon" type="image/ico" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mrvasil | Developer & Security Enthusiast</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div class="mobile-alert">This site is optimized to be displayed only in desktop version.</div>
-<section>
-      <div class="content">
-        <div class="info">
-          <h1 style="margin-left: 70px; font-size: 350%; font-family: 'SF UI Display', sans-serif; color: white"><span class="rotating-gradient">Hello! I'm </span> <span class="mrvasil">mrvasil</span>  </h1>
-
-          <p style="margin-top: 20px; font-size: 18px; text-align: center; margin-left: 80px; text-shadow: rgba(255, 0, 0, 0.796) 1px 1px 90px; font-family: 'SF UI Display', sans-serif; font-weight: 300;">
-            <span style="font-family: 'SF UI Display', sans-serif; font-weight: 400;">I am a full-stack web developer, Linux lover and Cyber Security enthusiast.</span> <br> I mostly write code on Python.<br>
-            Tech lover into programming, design, DevOPS and CTF.
-          </p>
-
-
-          <div class="buttons-container">
-            <a href="https://mrvasil.t.me" target="_blank" class="btn rotating-gradient">Telegram <span style="margin-left: 13px;">❯</span></a>
-            <a href="https://github.com/mrvasil" target="_blank" class="btn rotating-gradient">Github <span style="margin-left: 13px;">❯</span></a>
-            <a href="https://zagip.ru" target="_blank" class="btn rotating-gradient">Загипычи <span style="margin-left: 13px;">❯</span></a>
-          </div>
+    <div class="cursor"></div>
+    
+    <header>
+        <div class="logo">mrvasil</div>
+        <div class="theme-toggle">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
         </div>
-        <div class="swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="/me.png"/>
-              <div class="overlay">
-                <span>lol</span>
-                <h2>mrvasil</h2>
-              </div>
-              
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="glitch" data-text="Hello, I'm mrvasil">Hello, I'm mrvasil</h1>
+                <div class="typing-container">
+                    <span class="static-text">I build </span>
+                    <span class="dynamic-text"></span>
+                    <span class="cursor-typing">|</span>
+                </div>
+                <p class="bio">Crafting digital experiences through code. Full-stack developer with a passion for Linux, cybersecurity, and elegant solutions.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn primary">View Projects</a>
+                    <a href="#contact" class="btn secondary">Get in Touch</a>
+                </div>
             </div>
-            <div class="swiper-slide">
-              <img src="/me2.png"/>
-              <div class="overlay">
-                <span>wow</span>
-                <h2>mrvasil</h2>
-              </div>
-              
+        </section>
+
+        <section class="skills" id="skills">
+            <div class="container">
+                <h2>Tech Stack</h2>
+                <div class="skill-cards">
+                    <div class="skill-card" data-aos="fade-up">
+                        <i class="fas fa-code"></i>
+                        <h3>Development</h3>
+                        <p>Python, JavaScript, React, Node.js, Django, Flask</p>
+                    </div>
+                    <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Security</h3>
+                        <p>Penetration Testing, CTF Challenges, Network Security</p>
+                    </div>
+                    <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-server"></i>
+                        <h3>DevOps</h3>
+                        <p>Linux Administration, Docker, CI/CD, Cloud Infrastructure</p>
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>About Me</h2>
+                        <p>I'm a full-stack developer with a deep appreciation for elegant code and robust systems. My journey in tech began with Linux tinkering, which evolved into a passion for building secure, efficient applications.</p>
+                        <p>When I'm not coding, you'll find me participating in CTF competitions, exploring new technologies, or contributing to open-source projects. I believe in continuous learning and sharing knowledge with the community.</p>
+                        <p>Currently focused on Python-based solutions, but always excited to explore new languages and frameworks that solve real-world problems.</p>
+                    </div>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="terminal-button red"></span>
+                                <span class="terminal-button yellow"></span>
+                                <span class="terminal-button green"></span>
+                            </div>
+                            <div class="terminal-title">mrvasil@portfolio:~</div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="line">$ whoami</div>
+                            <div class="line">mrvasil</div>
+                            <div class="line">$ cat skills.txt</div>
+                            <div class="line">Python, JavaScript, Linux, Security, DevOps</div>
+                            <div class="line">$ ./interests.sh</div>
+                            <div class="line">Cybersecurity, Open Source, CTF, System Design</div>
+                            <div class="line">$ hostname</div>
+                            <div class="line">MacBook Air (M2) 8/512GB</div>
+                            <div class="line">$ <span class="cursor-line"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects" id="projects">
+            <div class="container">
+                <h2>Featured Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://zagip.ru/zagipichi_logo.png" alt="Zagip.ru Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3>zagip.ru</h3>
+                            <p>Zagip is a creative community of individuals who have developed a wide range of interactive services.</p>
+                            <div class="project-tags">
+                                <span>JS</span>
+                                <span>Full-stack</span>
+                                <span>Python</span>
+                            </div>
+                            <a href="https://zagip.ru" class="project-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+                            <br>
+                            <a href="https://github.com/zagip" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
+
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-color: #2ecc71;">
+                            <img src="/static/ya_home.png" alt="YaHome Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3>YaHome</h3>
+                            <p>Desktop Windows application for managing Yandex smart home devices. Features device control, scenario management, and a user-friendly interface similar to the official mobile app.</p>
+                            <div class="project-tags">
+                                <span>Python</span>
+                                <span>Yandex API</span>
+                                <span>Desktop App</span>
+                            </div>
+                            <a href="https://github.com/mrvasil/YAhome/" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-image" style="background-color: #e74c3c;">
+                            <img src="/static/picb.png" alt="PicBrowser Logo" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="project-content">
+                            <h3>PicBrowser</h3>
+                            <p>A convenient photo viewing application that allows users to easily manage, sort, select, and organize their images.</p>
+                            <div class="project-tags">
+                                <span>Python</span>
+                                <span>JavaScript</span>
+                                <span>Docker</span>
+                            </div>
+                            <a href="https://picb.mrvasil.ru" class="project-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
+                            <br>
+                            <a href="https://github.com/mrvasil/PicBrowser/" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2>Let's Connect</h2>
+                <p class="contact-intro">Have a project in mind or just want to chat about tech? Reach out through any of these channels:</p>
+                <div class="social-links">
+                    <a href="https://mrvasil.t.me/" class="social-link" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="https://github.com/mrvasil" class="social-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://zagip.ru" class="social-link" target="_blank">
+                        <i class="fas fa-globe"></i>
+                        <span>Zagip.ru</span>
+                    </a>
+                    <a href="mailto:mrvasil@mrvasil.ru" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">mrvasil</div>
+                <p class="footer-tagline">Building digital solutions with passion and precision.</p>
+                <div class="footer-links">
+                    <a href="#skills">Skills</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> mrvasil. All rights reserved.</p>
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <ul class="circles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-      </ul>
-    </section>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js'></script><script  src="./script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
