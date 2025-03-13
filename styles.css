@@ -67,7 +67,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 2rem;
+    padding: 1.2rem 2rem;
     position: fixed;
     width: 100%;
     top: 0;
@@ -84,6 +84,91 @@ header {
     letter-spacing: -0.5px;
 }
 
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.2rem;
+    position: relative;
+    padding-right: 2.5rem;
+}
+
+/* Add separator between social icons and theme toggle */
+.social-icons::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 24px;
+    width: 1px;
+    background-color: var(--border-color);
+}
+
+.nav-icon {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    transition: var(--transition);
+    opacity: 0.9;
+    position: relative;
+}
+
+/* Add hover effects for social icons */
+.nav-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: var(--primary-color);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.nav-icon:hover::after {
+    transform: scaleX(1);
+}
+
+/* Add tooltip on hover */
+.nav-icon {
+    position: relative;
+}
+
+.nav-icon::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.nav-icon:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
 .theme-toggle {
     cursor: pointer;
     font-size: 1.2rem;
@@ -93,13 +178,17 @@ header {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--card-bg);
-    box-shadow: var(--shadow);
+    background-color: transparent;
+    box-shadow: none;
     transition: var(--transition);
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
 .theme-toggle:hover {
     transform: translateY(-2px);
+    opacity: 1;
+    color: var(--primary-color);
 }
 
 .theme-toggle .fa-moon {
@@ -688,6 +777,22 @@ footer {
     
     .cursor {
         display: none;
+    }
+    
+    .header-nav {
+        gap: 1rem;
+    }
+    
+    .social-icons {
+        padding-right: 1.5rem;
+    }
+    
+    .nav-icon {
+        font-size: 1.3rem;
+    }
+    
+    .nav-icon::before {
+        display: none; /* Hide tooltips on mobile */
     }
 }
 
