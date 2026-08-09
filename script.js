@@ -63,24 +63,31 @@ const scrambleHandle = () => {
   scrambleFrame = requestAnimationFrame(render);
 };
 
-const animateGift = (gift, index) => {
+const animateGift = (image, index) => {
   if (reducedMotion.matches) return;
 
-  const duration = 4700 + index * 390;
-  const x = index % 2 === 0 ? 5 : -5;
-  const y = index % 3 === 0 ? -7 : 7;
+  const direction = index % 2 === 0 ? 1 : -1;
+  const duration = 12_000 + index * 780;
+  const x = (4 + index % 3) * direction;
+  const y = index % 3 === 0 ? -8 : 7;
+  const tilt = 1.2 * direction;
 
-  gift.animate(
+  image.animate(
     [
-      { '--float-x': '0px', '--float-y': '0px' },
-      { '--float-x': `${x}px`, '--float-y': `${y}px` },
-      { '--float-x': '0px', '--float-y': '0px' }
+      { transform: 'translate3d(0, 0, 0) rotate(0deg)' },
+      { transform: `translate3d(${x}px, ${y}px, 0) rotate(${tilt}deg)`, offset: 0.32 },
+      {
+        transform: `translate3d(${(-x * 0.55).toFixed(2)}px, ${(-y * 0.35).toFixed(2)}px, 0) rotate(${(-tilt * 0.5).toFixed(2)}deg)`,
+        offset: 0.68
+      },
+      { transform: 'translate3d(0, 0, 0) rotate(0deg)' }
     ],
     {
       duration,
-      delay: index * -520,
+      delay: index * -1900,
+      fill: 'both',
       iterations: Infinity,
-      easing: 'ease-in-out'
+      easing: 'cubic-bezier(0.45, 0, 0.55, 1)'
     }
   );
 };
@@ -107,7 +114,7 @@ const mountGifts = (items) => {
 
     gift.append(image);
     fragment.append(gift);
-    animateGift(gift, index);
+    animateGift(image, index);
   });
 
   giftLayer.replaceChildren(fragment);

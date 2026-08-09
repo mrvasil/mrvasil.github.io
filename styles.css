@@ -133,16 +133,14 @@ svg {
 .gift {
   --pointer-x: 0px;
   --pointer-y: 0px;
-  --float-x: 0px;
-  --float-y: 0px;
   position: absolute;
   width: clamp(48px, 5.8vw, 88px);
   aspect-ratio: 1;
   opacity: 0;
   filter: saturate(0.84) brightness(0.9);
   transform: translate3d(
-      calc(var(--pointer-x) + var(--float-x)),
-      calc(var(--pointer-y) + var(--float-y)),
+      var(--pointer-x),
+      var(--pointer-y),
       0
     ) rotate(var(--rotate));
   transition: opacity 700ms ease, filter 350ms ease;
@@ -168,6 +166,7 @@ svg {
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.38));
+  will-change: transform;
 }
 
 .gift-slot-0 {
@@ -679,6 +678,11 @@ svg {
   }
 
   .team-emblem svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .team-zagip .team-emblem svg {
     width: 25px;
     height: 25px;
   }
