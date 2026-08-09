@@ -12,6 +12,7 @@ services:
       TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN:-}"
       TELEGRAM_USER_ID: "${TELEGRAM_USER_ID:-}"
       TELEGRAM_GIFT_LIMIT: "${TELEGRAM_GIFT_LIMIT:-6}"
+      TELEGRAM_PROXY_URL: "${TELEGRAM_PROXY_URL:-}"
     read_only: true
     tmpfs:
       - /tmp:size=16m,mode=1777

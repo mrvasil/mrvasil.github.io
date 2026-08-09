@@ -6,7 +6,10 @@ ENV NODE_ENV=production \
 
 WORKDIR /app
 
-COPY --chown=node:node package.json server.mjs index.html styles.css script.js ./
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+
+COPY --chown=node:node server.mjs index.html styles.css script.js ./
 COPY --chown=node:node assets ./assets
 
 USER node

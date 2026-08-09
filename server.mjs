@@ -2,14 +2,18 @@ import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { request as httpsRequest } from 'node:https';
 import { dirname, extname, join, normalize } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { SocksProxyAgent } from 'socks-proxy-agent';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_PORT = 8080;
 const GIFT_CACHE_TTL = 5 * 60 * 1000;
 const MEDIA_CACHE_TTL = 60 * 60 * 1000;
 const MAX_MEDIA_BYTES = 5 * 1024 * 1024;
+const MAX_TELEGRAM_JSON_BYTES = 2 * 1024 * 1024;
+const TELEGRAM_REQUEST_TIMEOUT = 12_000;
 
 const MIME_TYPES = new Map([
   ['.css', 'text/css; charset=utf-8'],
@@ -24,6 +28,8 @@ const MIME_TYPES = new Map([
 const giftCache = { expiresAt: 0, payload: null, pending: null };
 const mediaRegistry = new Map();
 const mediaCache = new Map();
+let cachedProxyUrl = null;
+let cachedProxyAgent = null;
 
 const json = (response, status, body, cacheControl = 'no-store') => {
   response.writeHead(status, {
@@ -34,30 +40,104 @@ const json = (response, status, body, cacheControl = 'no-store') => {
   response.end(JSON.stringify(body));
 };
 
+const getTelegramProxyAgent = (proxyUrl) => {
+  if (!proxyUrl) return undefined;
+  if (proxyUrl === cachedProxyUrl && cachedProxyAgent) return cachedProxyAgent;
+
+  const parsedUrl = new URL(proxyUrl);
+  if (!['socks5:', 'socks5h:'].includes(parsedUrl.protocol) || !parsedUrl.hostname || !parsedUrl.port) {
+    throw new Error('TELEGRAM_PROXY_URL must be a valid socks5:// URL');
+  }
+
+  cachedProxyAgent?.destroy();
+  cachedProxyUrl = proxyUrl;
+  cachedProxyAgent = new SocksProxyAgent(proxyUrl);
+  return cachedProxyAgent;
+};
+
+const requestTelegramUrl = (url, proxyUrl, maxBytes, accept) => new Promise((resolve, reject) => {
+  let settled = false;
+
+  const fail = (error) => {
+    if (settled) return;
+    settled = true;
+    reject(error);
+  };
+
+  const succeed = (value) => {
+    if (settled) return;
+    settled = true;
+    resolve(value);
+  };
+
+  const request = httpsRequest(url, {
+    agent: getTelegramProxyAgent(proxyUrl),
+    headers: { Accept: accept }
+  }, (response) => {
+    const chunks = [];
+    let receivedBytes = 0;
+
+    response.once('error', fail);
+    response.on('data', (chunk) => {
+      receivedBytes += chunk.byteLength;
+      if (receivedBytes > maxBytes) {
+        const error = new Error('Telegram response is too large');
+        fail(error);
+        response.destroy(error);
+        request.destroy(error);
+        return;
+      }
+      chunks.push(chunk);
+    });
+    response.once('end', () => {
+      succeed({
+        body: Buffer.concat(chunks),
+        headers: response.headers,
+        status: response.statusCode || 0
+      });
+    });
+  });
+
+  request.setTimeout(TELEGRAM_REQUEST_TIMEOUT, () => {
+    request.destroy(new Error('Telegram request timed out'));
+  });
+  request.once('error', fail);
+  request.end();
+});
+
 const getTelegramConfig = () => {
   const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   const userId = process.env.TELEGRAM_USER_ID?.trim();
+  const proxyUrl = process.env.TELEGRAM_PROXY_URL?.trim() || null;
   const requestedLimit = Number(process.env.TELEGRAM_GIFT_LIMIT || 6);
   const limit = Number.isInteger(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 6) : 6;
 
   if (!token || !userId || !/^-?\d+$/.test(userId)) return null;
-  return { token, userId, limit };
+  return { token, userId, limit, proxyUrl };
 };
 
-const telegramRequest = async (token, method, params) => {
-  const url = new URL(`https://api.telegram.org/bot${token}/${method}`);
+const telegramRequest = async (config, method, params) => {
+  const url = new URL(`https://api.telegram.org/bot${config.token}/${method}`);
 
   for (const [key, value] of Object.entries(params)) {
     url.searchParams.set(key, String(value));
   }
 
-  const response = await fetch(url, {
-    headers: { Accept: 'application/json' },
-    signal: AbortSignal.timeout(12_000)
-  });
-  const payload = await response.json();
+  const response = await requestTelegramUrl(
+    url,
+    config.proxyUrl,
+    MAX_TELEGRAM_JSON_BYTES,
+    'application/json'
+  );
 
-  if (!response.ok || !payload.ok) {
+  let payload;
+  try {
+    payload = JSON.parse(response.body.toString('utf8'));
+  } catch {
+    throw new Error('Telegram returned invalid JSON');
+  }
+
+  if (response.status < 200 || response.status >= 300 || !payload.ok) {
     const error = new Error(payload.description || `Telegram returned HTTP ${response.status}`);
     error.status = response.status;
     throw error;
@@ -100,7 +180,7 @@ const loadGifts = async () => {
   if (giftCache.pending) return giftCache.pending;
 
   giftCache.pending = (async () => {
-    const result = await telegramRequest(config.token, 'getUserGifts', {
+    const result = await telegramRequest(config, 'getUserGifts', {
       user_id: config.userId,
       limit: config.limit
     });
@@ -140,18 +220,23 @@ const loadMedia = async (mediaKey) => {
   const config = getTelegramConfig();
   if (!fileId || !config) return null;
 
-  const file = await telegramRequest(config.token, 'getFile', { file_id: fileId });
+  const file = await telegramRequest(config, 'getFile', { file_id: fileId });
   const fileUrl = `https://api.telegram.org/file/bot${config.token}/${file.file_path}`;
-  const response = await fetch(fileUrl, { signal: AbortSignal.timeout(12_000) });
+  const response = await requestTelegramUrl(fileUrl, config.proxyUrl, MAX_MEDIA_BYTES, 'image/*');
 
-  if (!response.ok) throw new Error(`Telegram media returned HTTP ${response.status}`);
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`Telegram media returned HTTP ${response.status}`);
+  }
 
-  const buffer = Buffer.from(await response.arrayBuffer());
+  const buffer = response.body;
   if (buffer.byteLength > MAX_MEDIA_BYTES) throw new Error('Telegram media is too large');
+
+  const responseContentType = response.headers['content-type'];
+  const contentType = Array.isArray(responseContentType) ? responseContentType[0] : responseContentType;
 
   const entry = {
     body: buffer,
-    contentType: response.headers.get('content-type') || 'image/webp',
+    contentType: contentType || 'image/webp',
     expiresAt: Date.now() + MEDIA_CACHE_TTL
   };
 
