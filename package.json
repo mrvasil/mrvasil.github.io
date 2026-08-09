@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node --env-file-if-exists=.env server.mjs",
-    "telegram:id": "node --env-file-if-exists=.env scripts/telegram-user-id.mjs",
-    "test": "node --test"
+    "telegram:id": "node --env-file-if-exists=.env scripts/telegram-user-id.mjs"
   },
   "engines": {
     "node": ">=22"
