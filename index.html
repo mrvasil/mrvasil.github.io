@@ -1,210 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mrvasil page</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#090909">
+    <meta name="description" content="Alexey V. — @mrvasil. Telegram, email and GitHub.">
+    <meta property="og:title" content="mrvasil">
+    <meta property="og:description" content="Alexey V. — direct contacts.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/avatar.jpg">
+
+    <title>mrvasil</title>
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="logo">mrvasil</div>
-        <nav class="header-nav">
-            <div class="social-icons">
-                <a href="https://mrvasil.t.me/" target="_blank" class="nav-icon" data-tooltip="Telegram">
-                    <i class="fab fa-telegram"></i>
-                </a>
-                <a href="https://github.com/mrvasil" target="_blank" class="nav-icon" data-tooltip="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-            <div class="theme-toggle">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
-            </div>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contacts">Skip to contacts</a>
+
+    <div class="atmosphere" aria-hidden="true">
+      <div class="grid"></div>
+      <div class="gift-layer" id="gift-layer"></div>
+    </div>
+
+    <div class="shell">
+      <header class="masthead">
+        <a class="profile" href="https://t.me/mrvasil" target="_blank" rel="noreferrer" aria-label="Open Alexey V. on Telegram">
+          <img src="assets/avatar.jpg" width="44" height="44" alt="Alexey V.">
+          <span class="profile-copy">
+            <strong>Alexey V.</strong>
+            <span>@mrvasil</span>
+          </span>
+        </a>
+
+        <nav class="teams" aria-label="Teams">
+          <a class="team-link team-zagip" href="https://zagip.ru" target="_blank" rel="noreferrer">
+            <span class="team-emblem" aria-hidden="true">
+              <svg viewBox="0 0 44 44">
+                <path class="portrait-head" d="M12 17.5C12 8.8 16 4 22 4s10 4.8 10 13.5l-.6 7.4C30.8 31.8 27.2 36 22 36s-8.8-4.2-9.4-11.1z"></path>
+                <path class="portrait-hair" d="M12.3 17.2C11.7 8.7 16 3.6 22.3 3.6c5.7 0 9.3 3.6 10 10.2-2.8-2.5-6.1-3.2-9.3-2.4-3 .7-5.4 2.5-7.2 5.3"></path>
+                <path class="portrait-face" d="M16 20.8c1.5-1 3-1 4.4-.1m3.3 0c1.4-.9 2.9-.9 4.3.1M18.2 28.3c2.5 1.8 5.1 1.8 7.7 0"></path>
+                <path class="portrait-beard" d="M12.7 24.8c1 7.4 4.2 11.5 9.3 11.5s8.3-4.1 9.3-11.5c-1.9 4.8-5 7.1-9.3 7.1s-7.4-2.3-9.3-7.1z"></path>
+                <path class="portrait-suit" d="M7.5 43c.8-4.7 4.5-7.3 9.5-8.5l5 5 5-5c5 1.2 8.7 3.8 9.5 8.5"></path>
+              </svg>
+            </span>
+            <span class="team-name">zagip</span>
+            <span class="team-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="team-link team-daywave" href="https://daywave.ru" target="_blank" rel="noreferrer">
+            <span class="team-emblem" aria-hidden="true">
+              <svg viewBox="0 0 44 44">
+                <path class="wave-a" d="M3 24c5 0 5-11 10-11s5 11 10 11 5-11 10-11 5 11 10 11"></path>
+                <path class="wave-b" d="M3 29c5 0 5-11 10-11s5 11 10 11 5-11 10-11 5 11 10 11"></path>
+              </svg>
+            </span>
+            <span class="team-name">daywave</span>
+            <span class="team-arrow" aria-hidden="true">↗</span>
+          </a>
         </nav>
-    </header>
+      </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1 class="glitch" data-text="Hello, I'm mrvasil">Hello, I'm <span class="username">mrvasil</span></h1>
-                <div class="typing-container">
-                    <span class="static-text">I build </span>
-                    <span class="dynamic-text"></span>
-                    <span class="cursor-typing">|</span>
-                </div>
-                <p class="bio">Crafting digital experiences through code. Full-stack developer with a passion for Linux, cybersecurity, and elegant solutions.</p>
-                <div class="cta-buttons">
-                    <a href="#projects" class="btn primary">View Projects</a>
-                    <a href="#contact" class="btn secondary">Get in Touch</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="skills" id="skills">
-            <div class="container">
-                <h2>Tech Stack</h2>
-                <div class="skill-cards">
-                    <div class="skill-card" data-aos="fade-up">
-                        <i class="fas fa-code"></i>
-                        <h3>Development</h3>
-                        <p>Python, JavaScript, React, Node.js, Django, Flask</p>
-                    </div>
-                    <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Security</h3>
-                        <p>Penetration Testing, CTF Challenges, Network Security</p>
-                    </div>
-                    <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-server"></i>
-                        <h3>DevOps</h3>
-                        <p>Linux Administration, Docker, CI/CD, Cloud Infrastructure</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="about" id="about">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>About Me</h2>
-                        <p>I'm a full-stack developer with a deep appreciation for elegant code and robust systems. My journey in tech began with Linux tinkering, which evolved into a passion for building secure, efficient applications.</p>
-                        <p>When I'm not coding, you'll find me participating in CTF competitions, exploring new technologies, or contributing to open-source projects. I believe in continuous learning and sharing knowledge with the community.</p>
-                        <p>Currently focused on Python-based solutions, but always excited to explore new languages and frameworks that solve real-world problems.</p>
-                    </div>
-                    <div class="terminal">
-                        <div class="terminal-header">
-                            <div class="terminal-buttons">
-                                <span class="terminal-button red"></span>
-                                <span class="terminal-button yellow"></span>
-                                <span class="terminal-button green"></span>
-                            </div>
-                            <div class="terminal-title">mrvasil@portfolio:~</div>
-                        </div>
-                        <div class="terminal-body">
-                            <div class="line">$ whoami</div>
-                            <div class="line">mrvasil</div>
-                            <div class="line">$ cat skills.txt</div>
-                            <div class="line">Python, JavaScript, Linux, Security, DevOps</div>
-                            <div class="line">$ ./interests.sh</div>
-                            <div class="line">Cybersecurity, Open Source, CTF, System Design</div>
-                            <div class="line">$ hostname</div>
-                            <div class="line">MacBook Air (M2) 8/512GB</div>
-                            <div class="line">$ <span class="cursor-line"></span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="projects" id="projects">
-            <div class="container">
-                <h2>Featured Projects</h2>
-                <div class="project-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="https://zagip.ru/static/logos/zagipichi_logo.png" alt="Zagip.ru Logo" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-content">
-                            <h3>zagip.ru</h3>
-                            <p>Zagip is a creative community of individuals who have developed a wide range of interactive services.</p>
-                            <div class="project-tags">
-                                <span>JS</span>
-                                <span>Full-stack</span>
-                                <span>Python</span>
-                            </div>
-                            <a href="https://zagip.ru" class="project-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
-                            <br>
-                            <a href="https://github.com/zagip" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
-
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image" style="background-color: #2ecc71;">
-                            <img src="/images/ya_home.png" alt="YaHome Logo" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-content">
-                            <h3>YaHome</h3>
-                            <p>Desktop Windows application for managing Yandex smart home devices. Features device control, scenario management, and a user-friendly interface similar to the official mobile app.</p>
-                            <div class="project-tags">
-                                <span>Python</span>
-                                <span>Yandex API</span>
-                                <span>Desktop App</span>
-                            </div>
-                            <a href="https://github.com/mrvasil/YAhome/" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image" style="background-color: #e74c3c;">
-                            <img src="/images/picb.png" alt="PicBrowser Logo" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="project-content">
-                            <h3>PicBrowser</h3>
-                            <p>A convenient photo viewing application that allows users to easily manage, sort, select, and organize their images.</p>
-                            <div class="project-tags">
-                                <span>Python</span>
-                                <span>JavaScript</span>
-                                <span>Docker</span>
-                            </div>
-                            <a href="https://picb.mrvasil.ru" class="project-link" target="_blank">Visit Site <i class="fas fa-external-link-alt"></i></a>
-                            <br>
-                            <a href="https://github.com/mrvasil/PicBrowser/" class="project-link" target="_blank">View on GitHub <i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact" id="contact">
-            <div class="container">
-                <h2>Let's Connect</h2>
-                <p class="contact-intro">Have a project in mind or just want to chat about tech? Reach out through any of these channels:</p>
-                <div class="social-links">
-                    <a href="https://mrvasil.t.me/" class="social-link" target="_blank">
-                        <i class="fab fa-telegram"></i>
-                        <span>Telegram</span>
-                    </a>
-                    <a href="https://github.com/mrvasil" class="social-link" target="_blank">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://zagip.ru" class="social-link" target="_blank">
-                        <i class="fas fa-globe"></i>
-                        <span>Zagip.ru</span>
-                    </a>
-                    <a href="mailto:mrvasil@mrvasil.ru" class="social-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">mrvasil</div>
-                <p class="footer-tagline">Building digital solutions with passion and precision.</p>
-                <div class="footer-links">
-                    <a href="#skills">Skills</a>
-                    <a href="#about">About</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="year"></span> mrvasil. All rights reserved.</p>
-            </div>
+      <main class="hero">
+        <h1 class="sr-only">@mrvasil</h1>
+        <div class="hero-copy" data-word="@mrvasil" aria-hidden="true">
+          <div class="hero-title"><span class="at">@</span><span class="handle-text" id="handle-text">mrvasil</span></div>
         </div>
-    </footer>
+      </main>
+
+      <nav class="contacts" id="contacts" aria-label="Contacts">
+        <a href="https://t.me/mrvasil" target="_blank" rel="noreferrer">
+          <span class="contact-code">TG</span>
+          <span class="contact-main">
+            <span class="contact-label">Telegram</span>
+            <span class="contact-value">@mrvasil</span>
+          </span>
+          <span class="contact-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+          </span>
+          <span class="contact-ghost" aria-hidden="true">TG</span>
+        </a>
+
+        <a href="mailto:mrvasil@mrvasil.ru">
+          <span class="contact-code">MAIL</span>
+          <span class="contact-main">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">mrvasil@mrvasil.ru</span>
+          </span>
+          <span class="contact-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+          </span>
+          <span class="contact-ghost" aria-hidden="true">MAIL</span>
+        </a>
+
+        <a href="https://github.com/mrvasil" target="_blank" rel="noreferrer">
+          <span class="contact-code">GIT</span>
+          <span class="contact-main">
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">/mrvasil</span>
+          </span>
+          <span class="contact-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+          </span>
+          <span class="contact-ghost" aria-hidden="true">GIT</span>
+        </a>
+      </nav>
+    </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

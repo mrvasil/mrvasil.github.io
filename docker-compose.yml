@@ -1,6 +1,22 @@
 services:
-  web:
-    build: .
-    ports:
-      - "32001:80"
+  site:
+    build:
+      context: .
+    image: mrvasil-site:latest
     restart: unless-stopped
+    init: true
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8080
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN:-}"
+      TELEGRAM_USER_ID: "${TELEGRAM_USER_ID:-}"
+      TELEGRAM_GIFT_LIMIT: "${TELEGRAM_GIFT_LIMIT:-6}"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

@@ -1,202 +1,161 @@
-// Custom cursor
-document.addEventListener('DOMContentLoaded', () => {
-    // Удаляем код курсора
-    // ... existing code ...
-    
-    // Theme toggle
-    const themeToggle = document.querySelector('.theme-toggle');
-    const moonIcon = themeToggle.querySelector('.fa-moon');
-    const sunIcon = themeToggle.querySelector('.fa-sun');
-    
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        
-        // Обновляем цвет header при переключении темы с учетом прокрутки
-        const header = document.querySelector('header');
-        const isScrolled = header.classList.contains('scrolled');
-        header.style.backgroundColor = isLight 
-            ? `rgba(255, 255, 255, ${isScrolled ? '0.75' : '0.6'})` 
-            : `rgba(18, 18, 18, ${isScrolled ? '0.75' : '0.6'})`;
-    });
-    
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-    } else if (!savedTheme) {
-        // If no theme is saved, explicitly set dark theme
-        localStorage.setItem('theme', 'dark');
-    }
-    
-    // Typing animation
-    const words = ['websites.', 'applications.', 'solutions.', 'experiences.', 'innovations.', 'designs.', 'technologies.', 'platforms.', 'interfaces.', 'strategies.'];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingDelay = 200;
-    
-    const dynamicText = document.querySelector('.dynamic-text');
-    
-    function typeEffect() {
-        const currentWord = words[wordIndex];
-        
-        if (isDeleting) {
-            dynamicText.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-            typingDelay = 100;
-        } else {
-            dynamicText.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
-            typingDelay = 200;
-        }
-        
-        if (!isDeleting && charIndex === currentWord.length) {
-            isDeleting = true;
-            typingDelay = 1000; // Pause at end of word
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            wordIndex = (wordIndex + 1) % words.length;
-            typingDelay = 500; // Pause before typing next word
-        }
-        
-        setTimeout(typeEffect, typingDelay);
-    }
-    
-    // Start typing animation
-    setTimeout(typeEffect, 1000);
-    
-    // Terminal animation
-    const terminalLines = document.querySelectorAll('.terminal-body .line');
-    let lineIndex = 0;
-    
-    function showNextLine() {
-        if (lineIndex < terminalLines.length) {
-            // Remove cursor from previous line if exists
-            const prevCursor = document.querySelector('.terminal-cursor');
-            if (prevCursor) prevCursor.remove();
+const giftLayer = document.getElementById('gift-layer');
+const root = document.documentElement;
+const heroCopy = document.querySelector('.hero-copy');
+const handleText = document.getElementById('handle-text');
+const precisePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const depths = [1.05, 0.65, 0.85, 0.7, 1.15, 0.92];
 
-            const line = terminalLines[lineIndex];
-            line.style.display = 'block';
-            
-            // Add classes based on whether it's a command or output
-            if (line.textContent.startsWith('$')) {
-                line.classList.add('command');
-                line.textContent = line.textContent.substring(2); // Remove the '$ ' prefix
-            } else {
-                line.classList.add('output');
-            }
+let gifts = [];
+let pointerX = window.innerWidth / 2;
+let pointerY = window.innerHeight / 2;
+let animationFrame = 0;
+let scrambleFrame = 0;
 
-            // Add cursor to current line
-            const cursor = document.createElement('span');
-            cursor.className = 'terminal-cursor';
-            line.appendChild(cursor);
-            
-            lineIndex++;
-            setTimeout(showNextLine, 500);
-        }
+const renderGifts = () => {
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const normalizedX = Math.max(-1, Math.min(1, (pointerX - centerX) / Math.max(centerX, 1)));
+  const normalizedY = Math.max(-1, Math.min(1, (pointerY - centerY) / Math.max(centerY, 1)));
+
+  gifts.forEach((gift, index) => {
+    const depth = Number(gift.dataset.depth || 1);
+    const direction = index % 2 === 0 ? 1 : -1;
+    const x = normalizedX * depth * 18 * direction;
+    const y = normalizedY * depth * 14 * direction;
+
+    gift.style.setProperty('--pointer-x', `${x.toFixed(2)}px`);
+    gift.style.setProperty('--pointer-y', `${y.toFixed(2)}px`);
+  });
+
+  animationFrame = 0;
+};
+
+const queueRender = () => {
+  if (!animationFrame) animationFrame = requestAnimationFrame(renderGifts);
+};
+
+const scrambleHandle = () => {
+  if (reducedMotion.matches || scrambleFrame) return;
+
+  const value = 'mrvasil';
+  const glyphs = '01<>/{}[]#$';
+  const startedAt = performance.now();
+  const duration = 520;
+
+  const render = (now) => {
+    const progress = Math.min((now - startedAt) / duration, 1);
+    const revealed = Math.floor(progress * (value.length + 1));
+    const phase = Math.floor(now / 36);
+
+    handleText.textContent = [...value].map((letter, index) => {
+      if (index < revealed) return letter;
+      return glyphs[(phase + index * 3) % glyphs.length];
+    }).join('');
+
+    if (progress < 1) scrambleFrame = requestAnimationFrame(render);
+    else {
+      handleText.textContent = value;
+      scrambleFrame = 0;
     }
-    
-    // Hide all lines initially
-    terminalLines.forEach(line => {
-        line.style.display = 'none';
+  };
+
+  scrambleFrame = requestAnimationFrame(render);
+};
+
+const animateGift = (gift, index) => {
+  if (reducedMotion.matches) return;
+
+  const duration = 4700 + index * 390;
+  const x = index % 2 === 0 ? 5 : -5;
+  const y = index % 3 === 0 ? -7 : 7;
+
+  gift.animate(
+    [
+      { '--float-x': '0px', '--float-y': '0px' },
+      { '--float-x': `${x}px`, '--float-y': `${y}px` },
+      { '--float-x': '0px', '--float-y': '0px' }
+    ],
+    {
+      duration,
+      delay: index * -520,
+      iterations: Infinity,
+      easing: 'ease-in-out'
+    }
+  );
+};
+
+const mountGifts = (items) => {
+  const fragment = document.createDocumentFragment();
+
+  items.slice(0, depths.length).forEach((item, index) => {
+    const gift = document.createElement('div');
+    const image = document.createElement('img');
+
+    gift.className = `gift gift-slot-${index}`;
+    gift.dataset.depth = String(depths[index]);
+    gift.dataset.giftType = item.type;
+
+    image.src = item.image;
+    image.alt = '';
+    image.decoding = 'async';
+    image.draggable = false;
+
+    image.addEventListener('load', () => {
+      requestAnimationFrame(() => gift.classList.add('is-visible'));
+    }, { once: true });
+
+    gift.append(image);
+    fragment.append(gift);
+    animateGift(gift, index);
+  });
+
+  giftLayer.replaceChildren(fragment);
+  gifts = [...giftLayer.querySelectorAll('.gift')];
+  renderGifts();
+};
+
+const loadGifts = async () => {
+  try {
+    const response = await fetch('/api/gifts', {
+      headers: { Accept: 'application/json' }
     });
-    
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (entry.target.classList.contains('terminal')) {
-                    showNextLine();
-                }
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    // Observe elements for animation
-    document.querySelectorAll('.skill-card, .project-card, .terminal').forEach(el => {
-        observer.observe(el);
-    });
-    
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Update copyright year
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // Улучшенная обработка прокрутки для header
-    const header = document.querySelector('header');
-    window.addEventListener('scroll', () => {
-        const isLight = document.body.classList.contains('light-theme');
-        
-        if (window.scrollY > 50) { // Уменьшили порог срабатывания
-            header.classList.add('scrolled');
-            header.style.backgroundColor = isLight 
-                ? 'rgba(255, 255, 255, 0.75)' 
-                : 'rgba(18, 18, 18, 0.75)';
-        } else {
-            header.classList.remove('scrolled');
-            header.style.backgroundColor = isLight
-                ? 'rgba(255, 255, 255, 0.6)'
-                : 'rgba(18, 18, 18, 0.6)';
-        }
-    });
-    
-    // Add animation classes to elements when they come into view
-    const animatedElements = document.querySelectorAll('.hero h1, .bio, .cta-buttons, .skill-card, .project-card');
-    
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-                fadeObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    animatedElements.forEach(el => {
-        fadeObserver.observe(el);
-    });
+
+    if (!response.ok) return;
+
+    const payload = await response.json();
+    if (Array.isArray(payload.gifts)) mountGifts(payload.gifts);
+  } catch {
+    // The contact page stays usable when Telegram is temporarily unavailable.
+  }
+};
+
+window.addEventListener('pointermove', (event) => {
+  if (!precisePointer.matches || reducedMotion.matches) return;
+  pointerX = event.clientX;
+  pointerY = event.clientY;
+  const normalizedX = (event.clientX / Math.max(window.innerWidth, 1)) * 2 - 1;
+  const normalizedY = (event.clientY / Math.max(window.innerHeight, 1)) * 2 - 1;
+
+  root.style.setProperty('--cursor-x', `${event.clientX}px`);
+  root.style.setProperty('--cursor-y', `${event.clientY}px`);
+  heroCopy.style.setProperty('--echo-x', `${(-8 + normalizedX * 5).toFixed(2)}px`);
+  heroCopy.style.setProperty('--echo-y', `${(-7 + normalizedY * 4).toFixed(2)}px`);
+  queueRender();
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+  pointerX = window.innerWidth / 2;
+  pointerY = window.innerHeight / 2;
+  root.style.setProperty('--cursor-x', `${pointerX}px`);
+  root.style.setProperty('--cursor-y', `${pointerY}px`);
+  queueRender();
+}, { passive: true });
+
+heroCopy.addEventListener('pointerenter', scrambleHandle);
+
+requestAnimationFrame(() => {
+  document.body.classList.add('is-ready');
+  loadGifts();
+  window.setTimeout(scrambleHandle, 480);
 });
-
-// Add these CSS classes to your styles.css file for the animations
-document.head.insertAdjacentHTML('beforeend', `
-<style>
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .fade-in {
-        animation: fadeIn 0.8s ease forwards;
-    }
-    
-    header.scrolled {
-        background-color: var(--bg-color);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .terminal-body .line {
-        opacity: 0;
-        transform: translateY(10px);
-        animation: fadeIn 0.5s ease forwards;
-    }
-</style>
-`);

@@ -1,7 +1,10 @@
 .git
 .gitignore
-.dockerignore
-.vercel
-Dockerfile
-docker-compose.yml
-README.md
+.env
+.DS_Store
+.playwright-cli
+node_modules
+output
+legacy
+scripts
+test
