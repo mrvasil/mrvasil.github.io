@@ -2,11 +2,10 @@ services:
   site:
     build:
       context: .
-    image: mrvasil-site:latest
     restart: unless-stopped
     init: true
     ports:
-      - "${PORT:-8080}:8080"
+      - "${PORT:-32001}:8080"
     environment:
       HOST: 0.0.0.0
       PORT: 8080
